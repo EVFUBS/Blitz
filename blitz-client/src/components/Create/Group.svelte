@@ -1,6 +1,7 @@
 <script lang="ts">
 import { group } from '../../store'
 import Questions from './Questions.svelte'
+import {csrf} from '../../store'
 
     interface groupProps {
         group_id: number 
@@ -27,7 +28,7 @@ import Questions from './Questions.svelte'
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Token " + sessionStorage.getItem("token")
+                "X-CSRFToken": $csrf
             },
             body: JSON.stringify(selectedGroup)
         });
@@ -46,15 +47,16 @@ import Questions from './Questions.svelte'
     <h2>Group</h2>
     <form on:submit|preventDefault={() => updateGroup()}>
         <input type="text" bind:value={selectedGroup.group_name}>
-        <input type="text" bind:value={selectedGroup.group_description}>
+        <textarea type="text" bind:value={selectedGroup.group_description}/>
         <p>Category: {selectedGroup.category_id}</p>
         <p>Author: {selectedGroup.author}</p>
         <input type="submit" value="submit">
     </form>
-    <Questions group_id={selectedGroup.group_id} />
+    <Questions group_id={selectedGroup.group_id} unSelectGroup={unSelectGroup}/>
     <button on:click={() => unSelectGroup()}>close group</button>
 </main>
 
 <style>
+
 
 </style>

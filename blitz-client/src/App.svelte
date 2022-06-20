@@ -10,6 +10,25 @@ import SignUp from "./pages/SignUp.svelte";
 import Create from "./pages/Create.svelte";
 import Questions from "./components/Create/Questions.svelte";
 
+
+import { csrf } from "./store"
+import Account from "./pages/Account.svelte";
+const getCSRF = async() => {
+  const response = await fetch("/api/auth/csrf/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  const data = await response.json();
+  csrf.set(data.csrf_token);
+  console.log($csrf);
+};
+
+
+getCSRF();
+
+
 </script>
 
 <Router>
@@ -42,6 +61,10 @@ import Questions from "./components/Create/Questions.svelte";
     <Route path='/signup'>
       <SignUp/>
     </Route>
+
+    <Route path='/account'>
+      <Account/>
+    </Route>
   </main>
 </Router>
 
@@ -49,5 +72,6 @@ import Questions from "./components/Create/Questions.svelte";
   :global(body){
     margin: 0;
     padding: 0;
+    font-family: monospace;
   }
 </style>

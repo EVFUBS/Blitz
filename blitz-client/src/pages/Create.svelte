@@ -4,7 +4,6 @@
 </script>
 
 <main>
-    <h2>Create</h2>
     <Groups />
 </main>
 

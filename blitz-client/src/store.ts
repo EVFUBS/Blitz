@@ -7,3 +7,7 @@ export const group = writable({
     category_id: undefined,
     author: undefined
 });
+
+export const csrf = writable(undefined);
+
+export const loggedIn = writable(false);

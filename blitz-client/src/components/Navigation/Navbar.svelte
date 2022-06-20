@@ -1,5 +1,6 @@
 <script lang="ts">
     import {Link} from "svelte-navigator";
+    import { loggedIn } from "../../store";
 </script>
 
 <nav>
@@ -7,9 +8,13 @@
     <div>
         <Link class='link' to='play'>Play</Link>
         <Link class='link' to='explore'>Explore</Link>
-        <Link class='link' to='create'>Create</Link>
-        <Link class='link' to='signin'>Sign in</Link>
-        <Link class='link' to='signup'>Sign up</Link>
+        {#if $loggedIn === false}
+            <Link class='link' to='signin'>Sign in</Link>
+            <Link class='link' to='signup'>Sign up</Link>
+        {:else if $loggedIn === true}
+            <Link class='link' to='create'>Create</Link>
+            <Link class='link' to='account'>Account</Link>
+        {/if}
     </div>
 </nav>
 
@@ -21,7 +26,7 @@
         align-items: center;
         padding: 1rem;
         height: 3vh;
-        border-bottom: 2px solid rgb(188, 188, 188);
+        border-bottom: 2px solid #ccc;
     }
 
     nav :global(.mainLink) {
@@ -29,6 +34,11 @@
         font-weight: bold;
         text-decoration: none;
         color: black;
+        font-family: monospace;
+    }
+    
+    nav :global(.mainLink:hover){
+        color: #0070f3;
     }
 
     nav div{
@@ -40,11 +50,19 @@
     }
 
     nav div :global(.link) {
-        color: black;
+        color: #0070f3;
+        border: #0070f3 solid 1px;
+        border-radius: 5px;
         text-decoration: none;
+        font-family: monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: 0.2s;
     }
 
     nav div :global(.link:hover) {
-        color: #0070f3;
+        background-color: #0070f3;
+        color: white;
     }
 </style>

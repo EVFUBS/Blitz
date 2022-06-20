@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { group } from '../../store'
+    import { group, csrf, loggedIn } from '../../store'
     import { onMount } from "svelte";
     import Group from "./Group.svelte";
 
@@ -15,12 +15,13 @@
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Token " + sessionStorage.getItem("token")
+                "X-CSRFToken": $csrf
             }
         });
         const data = await response.json();
         if(response.status === 200) {
             groups = data;
+            $loggedIn = true;
         }
         else {
             alert("Failed to get groups, refresh and try again");
@@ -36,7 +37,7 @@
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Token " + sessionStorage.getItem("token")
+                "X-CSRFToken": $csrf
             },
             body: JSON.stringify({
                 group_name: groupName,
@@ -58,7 +59,7 @@
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Token " + sessionStorage.getItem("token")
+                "X-CSRFToken": $csrf
             }
         });
         if(response.status === 200 || response.status === 201 || response.status === 204) {
@@ -81,7 +82,7 @@
             <div class="groups">
                 {#each groups as group}
                     <div class="group" style="--r: {randomColor()}; --g: {randomColor()}; --b: {randomColor()};">
-                        <button on:click={() => deleteGroup(group)}>X</button>
+                        <button class="delete" on:click={() => deleteGroup(group)}>X</button>
                         <div class="group-detail" on:click={() => selectGroup(group)}>
                             <p class="group-name">{group.group_name}</p>
                         </div>
@@ -123,9 +124,6 @@
         border: none;
         cursor: pointer;
         transition: 0.3s;
-    }
-
-    .group button:hover{
         color: white;
     }
 
@@ -139,8 +137,7 @@
         font-size: 2rem;
         font-weight: bold;
         text-align: center;
-        color: black;
-        font-family: 'Roboto', sans-serif;
+        color: white;
         transition: 0.3s;
         padding: 0;
         margin: 0;
@@ -151,7 +148,8 @@
     }
 
     .group-name:hover{
-        color: white;
+        cursor: pointer;
+        text-decoration: underline;
     }
 
 </style>

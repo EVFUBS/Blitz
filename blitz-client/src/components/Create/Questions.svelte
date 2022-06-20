@@ -1,15 +1,18 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import Question from "./Question.svelte";
+import { csrf } from "../../store";
 
     export let group_id: number;
+    export let unSelectGroup: () => void;
     let qa: question[] = [];
 
     onMount(async() => {
         const response = await fetch(`/api/quiz/questions/answers/${group_id}`, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-CSRFToken": $csrf
             }
         });
         const data = await response.json();
@@ -60,12 +63,13 @@ import Question from "./Question.svelte";
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Token " + sessionStorage.getItem("token")
+                "X-CSRFToken": $csrf
             },
             body: JSON.stringify(qa)
         });
         if(response.status === 201) {
             console.log("Questions submitted");
+            unSelectGroup();
         }
         else{
             console.log("Questions not submitted");
@@ -82,7 +86,7 @@ import Question from "./Question.svelte";
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Token " + sessionStorage.getItem("token")
+                    "X-CSRFToken": $csrf
                 }
             });
             qa.splice(index, 1);
@@ -101,7 +105,7 @@ import Question from "./Question.svelte";
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Token " + sessionStorage.getItem("token")
+                    "X-CSRFToken": $csrf
                 }
             });
             question.answers.splice(index, 1);

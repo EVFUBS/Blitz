@@ -5,6 +5,7 @@ from rest_framework import generics
 from .models import Question, Answer, Group, Category
 from .serializers import QuestionSerializer, AnswerSerializer, GroupSerializer, CategorySerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -20,7 +21,7 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class GroupList(generics.ListAPIView):
     def get_queryset(self):
-        queryset = Group.objects.all()
+        queryset = Group.objects.all().order_by('-group_id')
         author = self.request.query_params.get('author', None)
         category = self.request.query_params.get('category', None)
         if author is not None:
@@ -32,13 +33,13 @@ class GroupList(generics.ListAPIView):
     serializer_class = GroupSerializer
     
 class SubmitGroup(generics.CreateAPIView):
-    permission_classes = (IsAuthenticated,)
     serializer_class = GroupSerializer
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 class GroupUser(APIView):
-    permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user
         queryset = Group.objects.filter(author=user)
@@ -105,83 +106,7 @@ class QuestionsAnswers(APIView):
                 answer_serializer = AnswerSerializer(data=answer)
                 if answer_serializer.is_valid():
                     a = answer_serializer.save(question=question)
-        
-'''         questions = request.data
-        for question in questions:
-            answers = question['answers']
-            question.pop('answers')
-            if question['question_id'] is None:
-                question_obj = Question.objects.get(question_id=question['question_id'])
-                serializer = QuestionSerializer(question_obj, data=question)
-                if serializer.is_valid():
-                    serializer_obj = serializer.save()
-                    self.setAnswers(answers, serializer_obj)
                     
-            else:
-                question['group_id'] = pk
-                serializer = QuestionSerializer(data=question)
-                if serializer.is_valid():
-                    serializer_obj = serializer.save()
-                    self.setAnswers(answers, serializer_obj)
-                    
-    def setAnswers(self, answers, serializer):
-        for answer in answers:
-            if answer['answer_id'] is None:
-                answer_obj = Answer.objects.get(answer_id=answer['answer_id'])
-                serializer = AnswerSerializer(data=answer)
-                if serializer.is_valid():
-                    serializer.save()
-            else:
-                answer['question'] = serializer.validated_data['question_id']
-                serializer = AnswerSerializer(data=answer)
-                if serializer.is_valid():
-                    serializer.save() '''
-                
-            
-        
-'''     questions = request.data
-        for question in questions:
-            answers = question['answers']
-            for answer in answers:
-                print(answer)
-                try:
-                    if answer['answer_id'] is not None:
-                        answer_object = Answer.objects.get(answer_id=answer['answer_id'])
-                        answer_serializer = AnswerSerializer(answer_object, data=answer)
-                        if answer_serializer.is_valid():
-                            print(question['question_id'])
-                            answer_serializer.save(question=question['question_id'])
-                            print('Answer updated')
-                        else:
-                            print(answer_serializer.errors)
-                            Response(answer_serializer.errors, status=400)
-                    else:
-                        answer_serializer = AnswerSerializer(data=answer)
-                        if answer_serializer.is_valid():
-                            answer_serializer.save(question=question['question_id'])
-                            print('Answer created')
-                except:
-                    print('Error has occured')
-            question.pop('answers')
-            try:
-                if question['question_id'] is not None:
-                    question_object = Question.objects.get(question_id=question['question_id'])
-                    question_serializer = QuestionSerializer(question_object, data=question)
-                    if question_serializer.is_valid():
-                        question_serializer.save(group_id=pk)
-                        print('Question updated')
-                    else:
-                        Response(question_serializer.errors, status=400)
-                else:
-                    question_serializer = QuestionSerializer(data=question)
-                    if question_serializer.is_valid():
-                        question_serializer.save(group_id=pk)
-                        print('Question created')
-            except:
-                print('Error has occured')
-        return Response(status=201) '''
-        
-            
 class AnswerList(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Answer.objects.all()
