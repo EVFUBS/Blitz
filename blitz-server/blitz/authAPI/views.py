@@ -61,4 +61,4 @@ def getUserInfo(request):
         if request.user.is_authenticated:
             user = User.objects.get(username=request.user.username)
             user_serializer = UserSerializer(user)
-            return Response(user_serializer.data)
+            return JsonResponse(user_serializer.data)

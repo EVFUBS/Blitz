@@ -33,7 +33,6 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        border: 1px black solid;
         border-radius: 10px;
         cursor: pointer;
     }
@@ -51,7 +50,6 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        border-bottom: 1px black solid;
         border-radius: 10px 10px 0 0;
     }
 
@@ -65,9 +63,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
+        width: calc(100% - 1px);
         height: 120px;
         text-align: center;
+        border-radius: 0 0 10px 10px;
+        border-left: 1px #ccc solid;
+        border-right: 1px #ccc solid;
+        border-bottom: 1px #ccc solid;
     }
 
 </style>
