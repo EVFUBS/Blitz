@@ -30,8 +30,8 @@ import GroupPreview from "../components/Explore/GroupPreview.svelte";
 
 <main>
     {#if selectedGroup}
+        <button class="close" on:click={() => selectedGroup = undefined}>X</button>
         <GroupPreview group={selectedGroup} />
-        <button on:click={() => selectedGroup = undefined}>press</button>
     {:else}
         <div class="groups">
             {#each groups as group}
@@ -52,6 +52,15 @@ import GroupPreview from "../components/Explore/GroupPreview.svelte";
         width: 100%;
     }
 
+    .close{
+        justify-self: flex-end;
+        align-self: flex-end;
+        border: none;
+        font-size: 2rem;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
     .groups {
         margin-top: 2rem;
         width: 95%;
@@ -59,6 +68,13 @@ import GroupPreview from "../components/Explore/GroupPreview.svelte";
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-gap: 20px;
         justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        .groups {
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
     }
     
 </style>

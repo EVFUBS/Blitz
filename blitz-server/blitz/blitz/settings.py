@@ -76,6 +76,11 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://192.168.0.10:3000"
+]
+
+ALLOWED_HOSTS = [
+    '192.168.0.10',
 ]
 
 ROOT_URLCONF = 'blitz.urls'

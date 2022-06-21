@@ -27,7 +27,7 @@ import { onDestroy, onMount } from "svelte";
 
     let colours = ['#5BC0EB', '#FDE74C', '#4E4187', '#00CC66']
 
-    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/group/${code}/`);
+    const socket = new WebSocket(`ws://${window.location.host}/ws/group/${code}/`);
 
     socket.onopen = () => {
         socket.send(JSON.stringify({
@@ -58,10 +58,10 @@ import { onDestroy, onMount } from "svelte";
             case "end_question":
                 if(selectedAnswer.answer_id === data.answer){
                     points++;
-                    correctAnswer = true
+                    correctAnswer = true;
                 }
                 else{
-                    correctAnswer = false
+                    correctAnswer = false;
                 }
                 showAnswers = false;
                 selectedAnswer = null;
@@ -74,7 +74,9 @@ import { onDestroy, onMount } from "svelte";
                     username: username,
                     points: points
                 }));
+                showAnswers = false;
                 finished = true;
+                console.log(data)
                 break;
         };   
     };
@@ -98,8 +100,8 @@ import { onDestroy, onMount } from "svelte";
         {#if selectedAnswer == null}
             <div class="answers">
                 {#each answers as answer, index}
-                    <div class="answer" on:click={() => selectAnswer(answer, index)}>
-                        <div class="answer-inner" style="--bg-colour: {colours[index]};">{answer.answer_text}</div>
+                    <div class="answer">
+                        <div class="answer-inner" style="--bg-colour: {colours[index]};" on:click={() => selectAnswer(answer, index)}>{answer.answer_text}</div>
                     </div>
                 {/each}
             </div>
@@ -155,14 +157,17 @@ import { onDestroy, onMount } from "svelte";
     }
 
     .answer-inner{
-        height: 80%;
-        width: 80%;
+        height: 90%;
+        width: 90%;
         border-radius: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: black;
+        font-size: 1.3rem;
+        color: white;
         background-color: var(--bg-colour);
-        box-shadow: 1px 2px 1px 1px;
+        box-shadow: 1px 3px 3px 1px rgba(0,0,0,0.2);
     }
 
     .answer-inner:hover{

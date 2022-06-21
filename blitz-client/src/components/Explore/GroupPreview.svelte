@@ -117,9 +117,16 @@ import Session from "./Session.svelte";
     .group{
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-between;;
         width: 100%;
         height: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .group{
+            align-items: center;
+            flex-direction: column;
+        }
     }
 
     .quiz{
@@ -133,9 +140,15 @@ import Session from "./Session.svelte";
     .questions{
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         width: 50%;
+    }
+
+    @media (max-width: 768px) {
+        .questions{
+            width: 90%;
+        }
     }
 
     .question{
@@ -143,11 +156,16 @@ import Session from "./Session.svelte";
         width: 90%;
     }
 
+    @media (max-width: 768px) {
+        .question{
+            width: 100%;
+        }
+    }
+
     details {
         border: 1px solid #aaa;
         border-radius: 4px;
         padding: .5em .5em 0;
-        width: 100%;
     }
 
     summary {
@@ -155,6 +173,7 @@ import Session from "./Session.svelte";
         margin: -.5em -.5em 0;
         padding: .5em;
         width: 100%;
+        cursor: pointer;
     }
 
     details[open] {
@@ -164,6 +183,31 @@ import Session from "./Session.svelte";
     details[open] summary {
         border-bottom: 1px solid #aaa;
         margin-bottom: .5em;
+    }
+
+    button{
+        color: #0070f3;
+        border: #0070f3 solid 2px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: 0.2s;
+        background-color: white;
+        width: 90%;
+    }
+
+    @media (max-width: 768px) {
+        button{
+            width: 100%;
+        }
+    }
+
+    button:hover{
+        background-color: #0070f3;
+        color: white;
     }
 
 

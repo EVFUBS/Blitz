@@ -57,6 +57,9 @@ import { loggedIn, csrf } from "../store";
         if(user.password !== confirmPassword) {
             alert("Passwords do not match");
         }
+        else if (user.password === undefined && confirmPassword === undefined){
+            alert("Please enter a password");
+        }
         else{
             const response = await fetch(`/api/auth/users/${user.id}/`, {
                 method: "PUT",
@@ -108,6 +111,7 @@ import { loggedIn, csrf } from "../store";
         flex-direction: column;
         align-items: center;
         height: 92vh;
+        width: 100%;
     }
 
     .account{
@@ -135,6 +139,7 @@ import { loggedIn, csrf } from "../store";
         border-radius: 5px;
         padding: 0 10px;
         font-size: 16px;
+        box-shadow: 0 0 5px #ccc;
     }
 
     form button{
@@ -142,15 +147,23 @@ import { loggedIn, csrf } from "../store";
     }
 
     button{
-        width: 80%;
-        height: 40px;
-        border: 1px solid #ccc;
+        color: #0070f3;
+        border: #0070f3 solid 1px;
         border-radius: 5px;
-        padding: 0 10px;
-        font-size: 16px;
-        background-color: #ccc;
-        color: #fff;
-        margin-bottom: 10px;
+        text-decoration: none;
+        font-family: monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: 0.2s;
+        background-color: white;
+        width: 82%;
+        height: 40px;
+    }
+
+    button:hover{
+        background-color: #0070f3;
+        color: white;
     }
 
 

@@ -33,8 +33,10 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
+        height: 200px;
         border-radius: 10px;
         cursor: pointer;
+        box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
     }
 
     main:hover{
@@ -49,8 +51,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         width: 100%;
+        height: 50px;
         border-radius: 10px 10px 0 0;
+        overflow: hidden;
     }
 
     .title{
@@ -63,13 +68,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: calc(100% - 1px);
         height: 120px;
         text-align: center;
         border-radius: 0 0 10px 10px;
-        border-left: 1px #ccc solid;
-        border-right: 1px #ccc solid;
-        border-bottom: 1px #ccc solid;
+        overflow: hidden;
     }
 
 </style>

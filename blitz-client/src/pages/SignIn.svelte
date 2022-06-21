@@ -39,8 +39,8 @@
 </script>
 
 <main>
-    <h2>Sign in</h2>
     <form on:submit|preventDefault={() => handleSubmit()}>
+        <h2>Sign in</h2>
         <label for="username">Username</label>
         <input type="text" id="username" name="username" bind:value={username}/>
         <label for="password">Password</label>
@@ -50,5 +50,56 @@
 </main>
 
 <style>
+    main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 92vh;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    form input {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 0 10px;
+        font-size: 16px;
+        box-shadow: 0 0 5px #ccc;
+    }
+
+    form button{
+        width: calc(100% + 20px);
+    }
+
+    button{
+        color: #0070f3;
+        border: #0070f3 solid 2px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: 0.2s;
+        background-color: white;
+        height: 40px;
+    }
+
+    button:hover{
+        background-color: #0070f3;
+        color: white;
+    }
 
 </style>

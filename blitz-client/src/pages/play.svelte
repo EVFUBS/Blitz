@@ -32,22 +32,21 @@ import { onMount } from "svelte";
         align-items: center;
         justify-content: center;
         height: 100vh;
+        width: 100%;
     }
 
     form{
         display: flex;
         flex-direction: row;
         justify-content: center;
-        width: 100%;
-        height: 20%;
+        width: 90%;
+        height: 60px;
     }
 
     form input{
         width: 300px;
-        margin-bottom: 10px;
-        height: 51px;
         border-radius: 5px 0 0 5px;
-        border: 1px solid #ccc;
+        border: 2px solid #0070f3;
         font-size: larger;
         text-align: center;
         border-right: none;
@@ -57,19 +56,25 @@ import { onMount } from "svelte";
         outline: none;
     }
 
-    form button{
-        height: 54px;
-        width: 50px;
-        border-radius: 0 5px 5px 0;
-        border: 1px solid #ccc;
+    button{
+        color: #0070f3;
+        border: #0070f3 solid 2px;
         border-left: none;
-        font-size: larger;
-        color: white;
-        background-color: black;
+        border-radius: 0 5px 5px 0;
+        text-decoration: none;
+        font-family: monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: 0.2s;
+        background-color: white;
+        width: 40px;
+        box-sizing: content-box;
     }
 
-    form button:focus{
-        outline: none;
+    button:hover{
+        background-color: #0070f3;
+        color: white;
     }
     
 </style>

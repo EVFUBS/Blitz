@@ -99,11 +99,21 @@
 
 <style>
 
+    main {
+        width: 100%;
+    }
+
     .groups{
         margin: 1rem;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .groups{
+            grid-template-columns: 1fr 1fr;
+        }
     }
 
     .group{

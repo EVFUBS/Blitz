@@ -74,4 +74,11 @@ getCSRF();
     padding: 0;
     font-family: monospace;
   }
+
+  main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

@@ -37,24 +37,70 @@
 </script>
 
 <main>
-    <h2>Sign up!</h2>
     <form on:submit|preventDefault={() => handleSubmit()}>
+        <h2>Sign up!</h2>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" bind:value={email}/>
+        <input type="email" id="email" name="email" bind:value={email} placeholder="Enter email"/>
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" bind:value={username}/>
+        <input type="text" id="username" name="username" bind:value={username} placeholder="Enter username"/>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" bind:value={password}/>
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" bind:value={confirmPassword}/>
+        <input type="password" id="password" name="password" bind:value={password} placeholder="Enter password"/>
+        <input type="password" id="confirmPassword" name="confirmPassword" bind:value={confirmPassword} placeholder="Confirm Password"/>
         <button type="submit">Sign up</button>
     </form>
 </main>
 
 <style>
-    main form{
+
+    main{
         display: flex;
         flex-direction: column;
+        width: 100%;
+        height: 92vh;
+        justify-content: center;
         align-items: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    form input {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 0 10px;
+        font-size: 16px;
+        box-shadow: 0 0 5px #ccc;
+    }
+
+    form button{
+        width: calc(100% + 20px);
+    }
+
+    button{
+        color: #0070f3;
+        border: #0070f3 solid 2px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: 0.2s;
+        height: 40px;
+        background-color: white;
+    }
+
+    button:hover{
+        background-color: #0070f3;
+        color: white;
     }
 </style>
