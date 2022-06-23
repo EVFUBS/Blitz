@@ -4,18 +4,23 @@ from django.shortcuts import render
 from rest_framework import generics
 from .models import Question, Answer, Group, Category
 from .serializers import QuestionSerializer, AnswerSerializer, GroupSerializer, CategorySerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # Create your views here.
-class CategoryList(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+class CategoryList(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    
+class CategoryDetail(generics.CreateAPIView):
+    permission_classes = (IsAdminUser,)
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAdminUser,)
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 

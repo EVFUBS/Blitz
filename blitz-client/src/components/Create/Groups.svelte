@@ -2,6 +2,8 @@
     import { group, csrf, loggedIn } from '../../store'
     import { onMount } from "svelte";
     import Group from "./Group.svelte";
+    import Button from "../General/Button.svelte";
+    import close from "../../assets/close.svg";
 
     let groups = [];
     let groupName= "";
@@ -82,17 +84,19 @@
             <div class="groups">
                 {#each groups as group}
                     <div class="group" style="--r: {randomColor()}; --g: {randomColor()}; --b: {randomColor()};">
-                        <button class="delete" on:click={() => deleteGroup(group)}>X</button>
+                        <button class="delete" on:click={() => deleteGroup(group)}><img src={close} alt="close"></button>
                         <div class="group-detail" on:click={() => selectGroup(group)}>
                             <p class="group-name">{group.group_name}</p>
                         </div>
                     </div>
                 {/each}
+                <form class="group-form" on:submit|preventDefault={() => handleSubmit()}>
+                    <div>
+                        <input class="group-form-name" type="text" name="groupName" id="" placeholder="Enter group name" bind:value={groupName}>
+                        <Button content="create"></Button>
+                    </div>
+                </form>
             </div>
-            <form on:submit|preventDefault={() => handleSubmit()}>
-                <input type="text" name="groupName" id="" placeholder="Enter group name" bind:value={groupName}>
-                <input type="submit" value="create">
-            </form>
         {/await}
     {/if}
 </main>
@@ -112,7 +116,7 @@
 
     @media (max-width: 768px) {
         .groups{
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
         }
     }
 
@@ -125,16 +129,20 @@
     }
 
     .group button{
-        width: 8%;
+        width: 30px;
         justify-self: right;
         font-size: 1.5rem;
         display: flex;
         justify-content: center;
         background-color: transparent;
+        text-align: center;
         border: none;
         cursor: pointer;
         transition: 0.3s;
-        color: white;
+        filter: invert(100%);
+        position: relative;
+        left: -5px;
+        top: 5px;
     }
 
     .group-detail{
@@ -162,4 +170,22 @@
         text-decoration: underline;
     }
 
+    .group-form{
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .group-form-name{
+        width: 100%;
+        height: 50px;
+        border-radius: 10px;
+        padding: 0.5rem;
+        border: 1px solid black;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        box-sizing: border-box;
+    }
 </style>

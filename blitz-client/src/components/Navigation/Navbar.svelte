@@ -2,10 +2,12 @@
     import {Link} from "svelte-navigator";
     import { loggedIn } from "../../store";
     import { fly } from 'svelte/transition';
+    import close from '../../assets/close.svg';
+    import menuIcon from '../../assets/menu.svg';
     
     let menu: HTMLDivElement;
     let width: number;
-    let open = true;
+    let open = false;
 
     $: if(width < 768) {
         open = false;
@@ -36,11 +38,11 @@
 <svelte:window bind:innerWidth={width} />
 
 <nav>
-    <h2><Link class='mainLink' to='/'>Blitz</Link></h2>
-    <div class="open" on:click={toggleMenu}>Open</div>
+    <h2><Link class='mainLink' to='/'>BLITZ</Link></h2>
+    <div class="open" on:click={toggleMenu}><img src={menuIcon} alt="menu"></div>
     {#if open}
-        <div class="links" in:fly={{x: 100,}}>
-            <div class="open" on:click={toggleMenu}>Open</div>
+        <div class="links" in:fly={{x: 100,}} out:fly={{x: 100}}>
+            <div class="close" on:click={toggleMenu}><img src={close} alt="close"></div>
             <Link class='link' to='play' on:click={() => closeMenu()}>Play</Link>
             <Link class='link' to='explore' on:click={() => closeMenu()}>Explore</Link>
             {#if $loggedIn === false}
@@ -106,14 +108,28 @@
         display: none;
     }
 
+    .close{
+        display: none;
+    }
+
     @media (max-width: 768px) {
         .open{
             display: block;
             cursor: pointer;
+            width: 30px;
+        }
+
+        .close{
+            display: block;
+            cursor: pointer;
+            position: fixed;
+            top: 3%;
+            left: 88%;
+            width: 30px;
         }
 
         .links{
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             height: 100%;

@@ -75,10 +75,48 @@ getCSRF();
     font-family: monospace;
   }
 
+  :global(.blueButton){
+    color: #0070f3;
+    border: #0070f3 solid 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: 0.2s;
+    background-color: white;
+    box-sizing: border-box;
+  }
+
+  :global(.blueButton:hover){
+    background-color: #0070f3;
+    color: white;
+  }
+
+  :global(.redButton){
+    color: #e3200a;
+    border: #e3200a solid 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: 0.2s;
+    background-color: white;
+    box-sizing: border-box;
+  }
+
+  :global(.redButton:hover){
+    background-color: #e3200a;
+    color: white;
+  }
+
   main{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
+
+
 </style>

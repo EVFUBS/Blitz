@@ -101,7 +101,7 @@ import { onDestroy, onMount } from "svelte";
             <div class="answers">
                 {#each answers as answer, index}
                     <div class="answer">
-                        <div class="answer-inner" style="--bg-colour: {colours[index]};" on:click={() => selectAnswer(answer, index)}>{answer.answer_text}</div>
+                        <div class="answer-inner" style="--bg-colour: {colours[index]};" on:click={() => selectAnswer(answer, index)}></div>
                     </div>
                 {/each}
             </div>
@@ -157,9 +157,9 @@ import { onDestroy, onMount } from "svelte";
     }
 
     .answer-inner{
-        height: 90%;
-        width: 90%;
-        border-radius: 2rem;
+        height: 98%;
+        width: 97%;
+        border-radius: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: center;

@@ -2,6 +2,7 @@
 import GroupCard from "../components/Explore/GroupCard.svelte";
 import { onMount } from "svelte";
 import GroupPreview from "../components/Explore/GroupPreview.svelte";
+import close from "../assets/close.svg";
 
     interface groupProps {
         group_id: number | null;
@@ -30,7 +31,7 @@ import GroupPreview from "../components/Explore/GroupPreview.svelte";
 
 <main>
     {#if selectedGroup}
-        <button class="close" on:click={() => selectedGroup = undefined}>X</button>
+        <button class="close" on:click={() => selectedGroup = undefined}><img src={close} alt="close"></button>
         <GroupPreview group={selectedGroup} />
     {:else}
         <div class="groups">
@@ -59,6 +60,10 @@ import GroupPreview from "../components/Explore/GroupPreview.svelte";
         font-size: 2rem;
         background-color: transparent;
         cursor: pointer;
+        width: 30px;
+        position: relative;
+        left: -10px;
+
     }
 
     .groups {

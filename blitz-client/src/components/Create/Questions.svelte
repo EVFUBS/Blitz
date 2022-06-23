@@ -2,10 +2,12 @@
 import { onMount } from "svelte";
 import Question from "./Question.svelte";
 import { csrf } from "../../store";
+import Button from "../General/Button.svelte";
 
     export let group_id: number;
     export let unSelectGroup: () => void;
     let qa: question[] = [];
+    let colours = ['#5BC0EB', '#FDE74C', '#4E4187', '#00CC66']
 
     onMount(async() => {
         const response = await fetch(`/api/quiz/questions/answers/${group_id}`, {
@@ -59,6 +61,11 @@ import { csrf } from "../../store";
     };
 
     const submitQuestions = async() => {
+        for(let question of qa){
+            if(question.question_text[question.question_text.length - 1] != "?") {
+                question.question_text += "?";
+            }
+        }
         const response = await fetch(`/api/quiz/questions/answers/${group_id}`, {
             method: "POST",
             headers: {
@@ -69,6 +76,7 @@ import { csrf } from "../../store";
         });
         if(response.status === 201) {
             console.log("Questions submitted");
+            alert("Questions submitted");
             unSelectGroup();
         }
         else{
@@ -77,21 +85,23 @@ import { csrf } from "../../store";
     };
 
     const deleteQuestion = async(question: question, index: number) => {
-        if(question.question_id === null) {
+        if(confirm("Are you sure you want to delete this question?")){
+            if(question.question_id === null) {
             qa.splice(index, 1);
             qa = [...qa];
-        }
-        else{
-            await fetch(`/api/quiz/questions/${question.question_id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": $csrf
-                }
-            });
-            qa.splice(index, 1);
-            qa = [...qa];
-            console.log("server");
+            }
+            else{
+                await fetch(`/api/quiz/questions/${question.question_id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": $csrf
+                    }
+                });
+                qa.splice(index, 1);
+                qa = [...qa];
+                console.log("server");
+            }
         }
     }
 
@@ -119,44 +129,93 @@ import { csrf } from "../../store";
     {#await qa}
         <p>getting questions</p>
     {:then qa}
-        <form>
+        <form on:submit|preventDefault>
             {#each qa as question, questionIndex}
                 <div class="question">
-                    <div>
-                        <input type="text" bind:value={question.question_text}>
-                        <button on:click|preventDefault={() => deleteQuestion(question, questionIndex)}>-</button>
+                    <div class="question-info">
+                        <input class="question-text" type="text" placeholder="Enter a question" bind:value={question.question_text}>
+                        <div></div>
+                        <button class="redButton" on:click={() => deleteQuestion(question, questionIndex)}>-</button>
                     </div>
                     {#each question.answers as answer, answerIndex}
-                        <div>
-                            <input type="text" bind:value={answer.answer_text}>
+                        <div class="answers" style="--question-colour: {colours[answerIndex]};">
+                            <input class="answer-text" type="text" placeholder="answer" bind:value={answer.answer_text}>
                             <input type="checkbox" name="correct" id="" bind:checked={answer.correct}>
-                            <button on:click|preventDefault={() => deleteAnswer(question, answer, answerIndex)}>-</button>
+                            <button class="redButton" on:click={() => deleteAnswer(question, answer, answerIndex)}>-</button>
                         </div>
                     {/each}
                     {#if question.answers.length < 4}
-                        <button on:click|preventDefault={() => addNewAnswer(question)}>+</button>
+                        <Button content="+" on:click={() => addNewAnswer(question)}/>
                     {/if}
                 </div>
             {/each}
-            <div>
-                <button on:click|preventDefault={() => addNewQuestion()}>new question</button>
-                <button on:click|preventDefault={() => submitQuestions()}>submit</button>
+            <div class="options">
+                <Button content="New Question" on:click={() => addNewQuestion()}>new question</Button>
             </div>
         </form>
+        <Button content="Submit" on:click={() => submitQuestions()}>submit</Button>
     {/await}
 </main>
 
 <style>
+    main{
+        width: 80%;
+        margin: 1rem;
+    }
+
     main form{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        main form{
+            grid-template-columns: 1fr;
+        }
     }
 
     .question{
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 1rem;
+        height: 250px;
+        width: 100%;
+    }
+
+    .question-info{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 10fr 1fr 1fr;
+    }
+
+    .question-text{
+        font-size: 1.1rem;
+        box-sizing: border-box;
+    }
+
+    .answers{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 10fr 1fr 1fr;
+    }
+
+    .answer-text{
+        font-size: 0.9rem;
+        border: 2px solid var(--question-colour);
+    }
+
+    .answer-text:focus{
+        outline: 2px solid var(--question-colour);
+    }
+
+    .options{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
     }
 
 </style>

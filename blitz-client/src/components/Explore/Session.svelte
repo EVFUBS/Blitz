@@ -23,6 +23,8 @@ import { csrf } from "../../store";
     let users = [];
     let userScores = [];
     let timer;
+    let progressBar;
+    let progress:number = 0;
 
     let colours = ['#5BC0EB', '#FDE74C', '#4E4187', '#00CC66']
 
@@ -76,17 +78,30 @@ import { csrf } from "../../store";
             type: "start_question",
             answers: currentQuestion.answers,
         }));
+        let correctAnswer: number | null = null;
+        try{
+            correctAnswer = currentQuestion.answers.find(answer => answer.correct).answer_id;
+        }
+        catch(e){
+            correctAnswer = null;
+        }
         timer = setInterval(() => {
             socket.send(JSON.stringify({
                 type: "end_question",
-                answer: currentQuestion.answers.find(answer => answer.correct).answer_id,
+                answer: correctAnswer,
             }));
             endQuestion();
         }, 10000);
+
+        progress = 0;
+        progressBar = setInterval(() => {
+            progress += 1;
+        });
     }
 
     const endQuestion = () => {
         clearInterval(timer);
+        clearInterval(progressBar);
         currentQuestion = {
             question_id: null,
             question_text: "Next Question...",
@@ -120,6 +135,7 @@ import { csrf } from "../../store";
     {#if play}
         <div class="quiz">
             <h1>{currentQuestion.question_text}</h1>
+            <progress max="640" value="{progress}"></progress>
             <div class="answers">
                 {#each currentQuestion.answers as answer, index}
                     <div class="answer">
