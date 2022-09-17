@@ -101,10 +101,20 @@ import {onMount} from 'svelte'
         display: flex;
         flex-direction: column;
         align-items: center;
+        background-color: var(--theme-color);
+    }
+
+    label {
+        color: var(--theme-color-2);
     }
 
     h2{
         text-align: center;
+        color: var(--theme-color-2);
+    }
+
+    p {
+        color: var(--theme-color-2);
     }
 
     form{
@@ -122,6 +132,7 @@ import {onMount} from 'svelte'
         border-bottom: 1px solid black;
         font-size: large;
         padding: 0.5rem;
+        border-radius: 2px;
     }
 
     form .title:focus{
@@ -133,9 +144,9 @@ import {onMount} from 'svelte'
         border-bottom: 1px solid black;
         font-size: large;
         height: 10rem;
-        width: 100%;
+        width: 99%;
         resize: none;
-        padding: 0.5rem;
+        border-radius: 2px;
     }
 
     form .desc:focus{

@@ -52,6 +52,19 @@ import { csrf } from "../../store";
             case "user_score":
                 delete data.type;
                 userScores = [...userScores, data];
+                userScores.sort((a, b) => {
+                    if (a.points > b.points) {
+                        return -1;
+                    } else if (a.points < b.points) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+                userScores.forEach((user, index) => {
+                    user.rank = index + 1;
+                });
+
                 console.log(userScores);
                 break;
         }
@@ -147,9 +160,9 @@ import { csrf } from "../../store";
     {:else if play === false}
         <div class="finished">
             <h1>Quiz Finished</h1>
-            <div>
+            <div class="scoreboard">
                 {#each userScores as user}
-                    <div class="scores">{user.username} - {user.points}</div>
+                    <div class="scores">{user.rank}.{user.username} - {user.points}</div>
                 {/each}
             </div>
         </div>
@@ -173,6 +186,7 @@ import { csrf } from "../../store";
         flex-direction: column;
         height: 100vh;
         width: 100%;
+        background-color: var(--theme-color);
     }
 
     .start{
@@ -200,6 +214,13 @@ import { csrf } from "../../store";
         height: 100vh;
         width: 100%;
         text-align: center;
+    }
+
+    .scoreboard{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
     }
 
     .scores{

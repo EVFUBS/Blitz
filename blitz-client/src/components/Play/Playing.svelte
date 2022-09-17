@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onDestroy, onMount } from "svelte";
+    import { navigate } from "svelte-navigator";
 
     interface answer{
         answer_id: number | null
@@ -35,6 +36,11 @@ import { onDestroy, onMount } from "svelte";
             username: username,
             points: points,
         }));
+    };
+
+    socket.onerror = (error) => {
+        alert("room does not exist")
+        navigate("/")
     };
 
     socket.onmessage = (event) => {
@@ -111,7 +117,7 @@ import { onDestroy, onMount } from "svelte";
             </div>
         {/if}
     {:else if finished}
-        <div>you got {points}</div>
+        <div>you got {points} nice job!</div>
     {:else}
         {#if correctAnswer}
             <div class="correct">
@@ -124,7 +130,7 @@ import { onDestroy, onMount } from "svelte";
                 </div>
             </div>
         {:else}
-            <div>Waiting for question</div>
+            <h3 class="waiting">Waiting for question</h3>
         {/if}
     {/if}
 
@@ -139,6 +145,10 @@ import { onDestroy, onMount } from "svelte";
         justify-content: center;
         height: 100vh;
         width: 100%;
+    }
+
+    .waiting {
+        color: var(--theme-color-2);
     }
 
     .answers{

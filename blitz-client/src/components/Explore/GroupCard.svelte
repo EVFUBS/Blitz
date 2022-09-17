@@ -8,17 +8,10 @@
     }
 
     export let group: groupProps;
-
-    const genRGBColor = () => {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        return `rgb(${r}, ${g}, ${b})`;
-    };
 </script>
 
 <main>
-    <div class="title-wrapper" style="background-color: {genRGBColor()};">
+    <div class="title-wrapper">
         <p class="title">{group.group_name}</p>
     </div>
     <div class="desc-wrapper">
@@ -37,14 +30,7 @@
         border-radius: 10px;
         cursor: pointer;
         box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
-    }
-
-    main:hover{
-        background-color: #f5f5f5;
-    }
-
-    main:active{
-        background-color: #e4e4e4;
+        background-color: var(--theme-color-2);
     }
 
     .title-wrapper{
@@ -57,6 +43,7 @@
         height: 50px;
         border-radius: 10px 10px 0 0;
         overflow: hidden;
+        background-color: var(--theme-color-alt);
     }
 
     @media (max-width: 768px) {
@@ -68,7 +55,7 @@
     .title{
         font-size: 1.3rem;
         margin-bottom: 0.5rem;
-        color: white;
+        color: var(--theme-color-2);
     }
 
     .desc-wrapper{
@@ -81,4 +68,7 @@
         overflow: hidden;
     }
 
+    .desc-wrapper p {
+        color: var(--theme-color);
+    }
 </style>

@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  web:
+    build: ./blitz-client
+    volumes:
+      - ./blitz-client:/app
+      - ./blitz-client/node-modules
+    ports:
+      - 3000:3000
+    
+
+  api:
+    build: ./blitz-server
+    command: python blitz/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./blitz-server:/api
+    ports:
+      - 8000:8000
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=102e9j39donfrwmfc7h4m7348q
+      - POSTGRES_HOST=db
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: postgres:14.5-alpine
+    volumes:
+      - ./blitz-server/data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=102e9j39donfrwmfc7h4m7348q
+    ports:
+      - 5432:5432
+
+  cache:
+    image: redis:7.0.4-alpine
+    ports:
+      - 6379:6379
+    restart: always

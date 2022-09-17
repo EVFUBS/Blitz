@@ -1,7 +1,5 @@
 <script lang="ts">
 import { onMount } from "svelte";
-
-
     export let question
     let question_text = ""
     let answer_text = ""

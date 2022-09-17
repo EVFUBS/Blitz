@@ -3,6 +3,7 @@ import { onMount } from "svelte";
 import Question from "./Question.svelte";
 import { csrf } from "../../store";
 import Button from "../General/Button.svelte";
+import autoAnimate from "@formkit/auto-animate"
 
     export let group_id: number;
     export let unSelectGroup: () => void;
@@ -85,23 +86,20 @@ import Button from "../General/Button.svelte";
     };
 
     const deleteQuestion = async(question: question, index: number) => {
-        if(confirm("Are you sure you want to delete this question?")){
-            if(question.question_id === null) {
+        if(question.question_id === null) {
             qa.splice(index, 1);
             qa = [...qa];
-            }
-            else{
-                await fetch(`/api/quiz/questions/${question.question_id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": $csrf
-                    }
-                });
-                qa.splice(index, 1);
-                qa = [...qa];
-                console.log("server");
-            }
+        }
+        else{
+            await fetch(`/api/quiz/questions/${question.question_id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": $csrf
+                }
+            });
+            qa.splice(index, 1);
+            qa = [...qa];
         }
     }
 
@@ -120,7 +118,6 @@ import Button from "../General/Button.svelte";
             });
             question.answers.splice(index, 1);
             qa = [...qa];
-            console.log("server");
         }
     }
 </script>
@@ -129,9 +126,10 @@ import Button from "../General/Button.svelte";
     {#await qa}
         <p>getting questions</p>
     {:then qa}
-        <form on:submit|preventDefault>
+        <!--error is due to typescript, however runs and works properly-->
+        <form on:submit|preventDefault use:autoAnimate>
             {#each qa as question, questionIndex}
-                <div class="question">
+                <div class="question" use:autoAnimate>
                     <div class="question-info">
                         <input class="question-text" type="text" placeholder="Enter a question" bind:value={question.question_text}>
                         <div></div>
@@ -161,6 +159,7 @@ import Button from "../General/Button.svelte";
     main{
         width: 80%;
         margin: 1rem;
+        background-color: var(--theme-color);
     }
 
     main form{

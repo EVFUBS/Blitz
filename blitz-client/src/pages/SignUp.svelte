@@ -1,6 +1,8 @@
 <script lang="ts">
-    import {useNavigate} from "svelte-navigator";
+    import Button from "../components/General/Button.svelte";
+import {useNavigate} from "svelte-navigator";
     import {csrf} from "../store";
+    import { fly } from "svelte/transition";
     const navigate = useNavigate();
 
 
@@ -37,8 +39,8 @@
 </script>
 
 <main>
-    <form on:submit|preventDefault={() => handleSubmit()}>
-        <h2>Sign up!</h2>
+    <form in:fly={{y: -100}} on:submit|preventDefault={() => handleSubmit()}>
+        <h2 class="header">Sign up!</h2>
         <label for="email">Email</label>
         <input type="email" id="email" name="email" bind:value={email} placeholder="Enter email"/>
         <label for="username">Username</label>
@@ -46,7 +48,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" bind:value={password} placeholder="Enter password"/>
         <input type="password" id="confirmPassword" name="confirmPassword" bind:value={confirmPassword} placeholder="Confirm Password"/>
-        <button type="submit">Sign up</button>
+        <Button on:click={() => handleSubmit()}>Sign Up</Button>
     </form>
 </main>
 
@@ -56,15 +58,24 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        height: 92vh;
+        height: 92.4vh;
         justify-content: center;
         align-items: center;
+        background-color: var(--theme-color);
+    }
+
+    .header {
+        color: var(--theme-color-2);
+    }
+
+    label {
+        color: var(--theme-color-2);
     }
 
     form {
         display: flex;
         flex-direction: column;
-        width: 80%;
+        width: 70%;
         height: 100%;
         justify-content: center;
         align-items: center;
@@ -72,35 +83,11 @@
     }
 
     form input {
-        width: 100%;
+        width: 99%;
         height: 40px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        padding: 0 10px;
         font-size: 16px;
         box-shadow: 0 0 5px #ccc;
-    }
-
-    form button{
-        width: calc(100% + 20px);
-    }
-
-    button{
-        color: #0070f3;
-        border: #0070f3 solid 2px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-family: monospace;
-        font-size: 0.9rem;
-        font-weight: bold;
-        padding: 0.5rem;
-        transition: 0.2s;
-        height: 40px;
-        background-color: white;
-    }
-
-    button:hover{
-        background-color: #0070f3;
-        color: white;
     }
 </style>

@@ -1,5 +1,7 @@
 <script lang="ts">
+    import autoAnimate from "@formkit/auto-animate";
 import { onMount } from "svelte";
+    import { fly } from "svelte/transition";
 
     import Playing from "./Playing.svelte";
 
@@ -17,7 +19,7 @@ import { onMount } from "svelte";
     {#if usernameEntered}
         <Playing code={code} username={username}/>
     {:else}
-        <p>Enter username</p>
+        <h3>Enter username</h3>
         <form on:submit|preventDefault>
             <input type="text" bind:value={username}>
             <button type="submit" on:click={() => usernameEntered = true}>></button>
@@ -35,6 +37,11 @@ import { onMount } from "svelte";
         justify-content: center;
         width: 100%;
         height: 100vh;
+        background-color: var(--theme-color);
+    }
+
+    h3 {
+        color: var(--theme-color-2);
     }
 
     form{
@@ -48,7 +55,7 @@ import { onMount } from "svelte";
     form input{
         width: 300px;
         border-radius: 5px 0 0 5px;
-        border: 2px solid #0070f3;
+        border: 2px solid var(--theme-color-alt);
         font-size: larger;
         text-align: center;
         border-right: none;
@@ -59,8 +66,8 @@ import { onMount } from "svelte";
     }
 
     button{
-        color: #0070f3;
-        border: #0070f3 solid 2px;
+        color: var(--theme-color-alt);
+        border: var(--theme-color-alt) solid 2px;
         border-left: none;
         border-radius: 0 5px 5px 0;
         text-decoration: none;
@@ -69,14 +76,14 @@ import { onMount } from "svelte";
         font-weight: bold;
         padding: 0.5rem;
         transition: 0.2s;
-        background-color: white;
+        background-color: var(--theme-color-2);
         width: 40px;
         box-sizing: content-box;
     }
 
     button:hover{
-        background-color: #0070f3;
-        color: white;
+        background-color: var(--theme-color-alt);
+        color: var(--theme-color);
     }
 
 </style>

@@ -3,6 +3,8 @@
     let username: string = "";
     let password: string = "";
     import {useNavigate} from "svelte-navigator";
+    import Button from "../components/General/Button.svelte";
+    import { fly } from "svelte/transition";
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
@@ -39,13 +41,13 @@
 </script>
 
 <main>
-    <form on:submit|preventDefault={() => handleSubmit()}>
-        <h2>Sign in</h2>
+    <form in:fly={{y: -100}} on:submit|preventDefault={() => handleSubmit()}>
+        <h2 class="header">Sign in</h2>
         <label for="username">Username</label>
         <input type="text" id="username" name="username" bind:value={username}/>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" bind:value={password}/>
-        <button type="submit">Sign in</button>
+        <Button on:click={() => handleSubmit()}>Sign in</Button>
     </form>
 </main>
 
@@ -56,7 +58,16 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 92vh;
+        height: 92.4vh;
+        background-color: var(--theme-color);
+    }
+
+    .header {
+        color: var(--theme-color-2);
+    }
+
+    label {
+        color: var(--theme-color-2);
     }
 
     form {
@@ -70,36 +81,11 @@
     }
 
     form input {
-        width: 100%;
+        width: 99%;
         height: 40px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        padding: 0 10px;
         font-size: 16px;
         box-shadow: 0 0 5px #ccc;
     }
-
-    form button{
-        width: calc(100% + 20px);
-    }
-
-    button{
-        color: #0070f3;
-        border: #0070f3 solid 2px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-family: monospace;
-        font-size: 0.9rem;
-        font-weight: bold;
-        padding: 0.5rem;
-        transition: 0.2s;
-        background-color: white;
-        height: 40px;
-    }
-
-    button:hover{
-        background-color: #0070f3;
-        color: white;
-    }
-
 </style>

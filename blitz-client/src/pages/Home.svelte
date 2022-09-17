@@ -2,11 +2,12 @@
 import Button from "../components/General/Button.svelte";
 import { navigate } from "svelte-navigator";
 import { loggedIn } from "../store";
+import {fly} from 'svelte/transition'
 
 </script>
 
 <main>
-    <div>
+    <div in:fly={{y : -100}}>
         <h1>Welcome to <span>BLITZ</span></h1>
         <p>
             BLITZ is a game where you can play quizes against other players and compete
@@ -17,7 +18,7 @@ import { loggedIn } from "../store";
         </strong>
     </div>
     <div>
-        <h2><span>Explore</span> offical and usermade quizes</h2>
+        <h2><span>Explore</span> offical and usermade <span>quizes</span></h2>
         <p>
             Explore quizes created by other users or by the offical BLITZ team.
         </p>
@@ -55,10 +56,13 @@ import { loggedIn } from "../store";
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        color: var(--theme-color-2);
+        background-color: var(--theme-color);
+        width: 100%;
     }
 
     span{
-        color: #0070f3;
+        color: var(--theme-color-alt);
     }
 
     div{

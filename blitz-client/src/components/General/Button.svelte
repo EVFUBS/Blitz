@@ -13,8 +13,8 @@
 <style>
     button{
         width: 100%;
-        color: #0070f3;
-        border: #0070f3 solid 2px;
+        color: var(--theme-color-alt);
+        border: var(--theme-color-alt) solid 2px;
         border-radius: 5px;
         text-decoration: none;
         font-family: monospace;
@@ -22,13 +22,13 @@
         font-weight: bold;
         padding: 0.5rem;
         transition: 0.2s;
-        background-color: white;
+        background-color: var(--theme-color);
         height: 40px;
         box-sizing: border-box;
     }
 
     button:hover{
-        background-color: #0070f3;
-        color: white;
+        background-color: var(--theme-color-alt);
+        color: var(--theme-color);
     }
 </style>

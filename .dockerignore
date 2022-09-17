@@ -1,0 +1,4 @@
+blitz-client/.env
+**/node_modules
+blitz-client/.vscode
+blitz-server/blitz/db.sqlite3

@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from os import environ
+from socket import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,7 +53,12 @@ ASGI_APPLICATION = 'blitz.asgi.application'
 #change this before deployment
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        #'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            #'hosts': [('redis://default:9VzM7f8hoJaXDYf83PXU@containers-us-west-63.railway.app', 5999)],
+            'hosts':[(environ.get('REDIS_HOST'), environ.get('REDIS_PORT'))],
+        },
     }
 }
 
@@ -75,12 +83,18 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://192.168.0.10:3000"
+    #"http://localhost:3000",
+    #"http://192.168.0.10:3000"
 ]
 
 ALLOWED_HOSTS = [
-    '192.168.0.10',
+    'api',
+    'web',
+    '127.0.0.1'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:3000'
 ]
 
 ROOT_URLCONF = 'blitz.urls'
@@ -109,8 +123,14 @@ WSGI_APPLICATION = 'blitz.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': 5432,
     }
 }
 

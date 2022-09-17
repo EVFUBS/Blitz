@@ -1,8 +1,13 @@
 <script lang="ts">
+    import Button from "../components/General/Button.svelte";
 import { onMount } from "svelte";
 
 import { navigate } from "svelte-navigator";
 import { loggedIn, csrf } from "../store";
+
+    if (!$loggedIn) {
+        navigate('/')
+    }
 
     interface userProps{
         id: number | null;
@@ -89,7 +94,7 @@ import { loggedIn, csrf } from "../store";
         <p>getting user</p>
     {:then} 
         <div class="account">
-            <form on:submit|preventDefault={() => updateUser()}>
+            <form>
                 <label for="username">Username</label>
                 <input type="text" name="username" bind:value={user.username} placeholder="Enter username">
                 <label for="email">Email</label>
@@ -97,9 +102,13 @@ import { loggedIn, csrf } from "../store";
                 <label for="password">Password</label>
                 <input type="password" name="password" bind:value={user.password} placeholder="Enter password">
                 <input type="password" name="confirmPassword" bind:value={confirmPassword} placeholder="Confirm password">
-                <button type="submit">Update Info</button>
+                <div class="button">
+                    <Button on:click={() => updateUser()}>Update Info</Button>
+                </div>
+                <div class="button">
+                    <Button on:click={() => logout()}>logout</Button>
+                </div>
             </form>
-            <button on:click={() => logout()}>logout</button>
         </div>
     {/await}
 </main>
@@ -110,8 +119,9 @@ import { loggedIn, csrf } from "../store";
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 92vh;
+        height: 92.4vh;
         width: 100%;
+        background-color: var(--theme-color);
     }
 
     .account{
@@ -120,6 +130,11 @@ import { loggedIn, csrf } from "../store";
         align-items: center;
         width: 100%;
         height: 100%;
+        background-color: var(--theme-color);
+    }
+
+    label {
+        color: var(--theme-color-2);
     }
 
     form {
@@ -133,7 +148,7 @@ import { loggedIn, csrf } from "../store";
     }
 
     form input {
-        width: 100%;
+        width: 97%;
         height: 40px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -142,29 +157,8 @@ import { loggedIn, csrf } from "../store";
         box-shadow: 0 0 5px #ccc;
     }
 
-    form button{
-        width: calc(100% + 20px);
+    .button {
+        width: 100%;
+        margin-bottom: 0.5rem;
     }
-
-    button{
-        color: #0070f3;
-        border: #0070f3 solid 1px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-family: monospace;
-        font-size: 0.9rem;
-        font-weight: bold;
-        padding: 0.5rem;
-        transition: 0.2s;
-        background-color: white;
-        width: 82%;
-        height: 40px;
-    }
-
-    button:hover{
-        background-color: #0070f3;
-        color: white;
-    }
-
-
 </style>

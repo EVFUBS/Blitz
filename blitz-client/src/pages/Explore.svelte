@@ -1,8 +1,10 @@
 <script lang="ts">
-import GroupCard from "../components/Explore/GroupCard.svelte";
-import { onMount } from "svelte";
-import GroupPreview from "../components/Explore/GroupPreview.svelte";
-import close from "../assets/close.svg";
+    import GroupCard from "../components/Explore/GroupCard.svelte";
+    import { onMount } from "svelte";
+    import GroupPreview from "../components/Explore/GroupPreview.svelte";
+    import autoAnimate from "@formkit/auto-animate"; 
+    import Fa from "svelte-fa";
+    import {faXmark} from "@fortawesome/free-solid-svg-icons"
 
     interface groupProps {
         group_id: number | null;
@@ -14,6 +16,12 @@ import close from "../assets/close.svg";
 
     let groups:groupProps[] = [];
     let selectedGroup:groupProps;
+
+    let selected = false;
+
+    const closeSelected = () => {
+        selected = false;
+    }
 
     const getGroups = async () => {
         const response = await fetch('/api/quiz/groups/');
@@ -31,10 +39,10 @@ import close from "../assets/close.svg";
 
 <main>
     {#if selectedGroup}
-        <button class="close" on:click={() => selectedGroup = undefined}><img src={close} alt="close"></button>
+        <button class="close" on:click={() => selectedGroup = undefined}><Fa icon={faXmark}/></button>
         <GroupPreview group={selectedGroup} />
     {:else}
-        <div class="groups">
+        <div class="groups" use:autoAnimate>
             {#each groups as group}
                 <div on:click={() => selectedGroup = group}>
                     <GroupCard group={group}/>
@@ -51,6 +59,8 @@ import close from "../assets/close.svg";
         flex-direction: column;
         align-items: center;
         width: 100%;
+        height: 100vh;
+        background-color: var(--theme-color);
     }
 
     .close{
@@ -63,7 +73,7 @@ import close from "../assets/close.svg";
         width: 30px;
         position: relative;
         left: -10px;
-
+        color: var(--theme-color-2);
     }
 
     .groups {

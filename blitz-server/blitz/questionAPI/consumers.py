@@ -10,7 +10,7 @@ class GroupConsumer(WebsocketConsumer):
             self.channel_name
         )
         self.accept()
-       
+         
     def receive(self, text_data):
         data_json = json.loads(text_data)
             

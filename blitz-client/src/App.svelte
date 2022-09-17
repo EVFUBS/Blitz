@@ -9,9 +9,8 @@ import SignIn from "./pages/SignIn.svelte";
 import SignUp from "./pages/SignUp.svelte";
 import Create from "./pages/Create.svelte";
 import Questions from "./components/Create/Questions.svelte";
-
-
-import { csrf } from "./store"
+import Settings from "./pages/Settings.svelte";
+import { csrf, themeColor, themeColor2, themeColorAlt } from "./store"
 import Account from "./pages/Account.svelte";
 const getCSRF = async() => {
   const response = await fetch("/api/auth/csrf/", {
@@ -28,6 +27,9 @@ const getCSRF = async() => {
 
 getCSRF();
 
+document.documentElement.style.setProperty('--theme-color', $themeColor)
+document.documentElement.style.setProperty('--theme-color-2', $themeColor2)
+document.documentElement.style.setProperty('--theme-color-alt', $themeColorAlt)
 
 </script>
 
@@ -64,6 +66,10 @@ getCSRF();
 
     <Route path='/account'>
       <Account/>
+    </Route>
+
+    <Route path='/settings'>
+      <Settings/>
     </Route>
   </main>
 </Router>

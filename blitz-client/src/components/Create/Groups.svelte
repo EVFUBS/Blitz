@@ -4,6 +4,7 @@
     import Group from "./Group.svelte";
     import Button from "../General/Button.svelte";
     import close from "../../assets/close.svg";
+    import autoAnimate from '@formkit/auto-animate';
 
     let groups = [];
     let groupName= "";
@@ -81,7 +82,7 @@
         {#await groups}
             <p>getting groups</p>
         {:then groups}
-            <div class="groups">
+            <div class="groups" use:autoAnimate>
                 {#each groups as group}
                     <div class="group" style="--r: {randomColor()}; --g: {randomColor()}; --b: {randomColor()};">
                         <button class="delete" on:click={() => deleteGroup(group)}><img src={close} alt="close"></button>
@@ -105,6 +106,8 @@
 
     main {
         width: 100%;
+        background-color: var(--theme-color);
+        height: 100vh;
     }
 
     .groups{
@@ -112,6 +115,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 10px;
+        background-color: var(--theme-color);
     }
 
     @media (max-width: 768px) {

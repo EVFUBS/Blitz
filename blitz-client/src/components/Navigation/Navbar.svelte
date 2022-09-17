@@ -1,9 +1,9 @@
 <script lang="ts">
-    import {Link} from "svelte-navigator";
+    import { Link } from 'svelte-navigator'
     import { loggedIn } from "../../store";
     import { fly } from 'svelte/transition';
-    import close from '../../assets/close.svg';
-    import menuIcon from '../../assets/menu.svg';
+    import Fa from 'svelte-fa'
+    import {faBars, faXmark} from '@fortawesome/free-solid-svg-icons'
     
     let menu: HTMLDivElement;
     let width: number;
@@ -39,10 +39,10 @@
 
 <nav>
     <h2><Link class='mainLink' to='/'>BLITZ</Link></h2>
-    <div class="open" on:click={toggleMenu}><img src={menuIcon} alt="menu"></div>
+    <div class="open" on:click={toggleMenu}><Fa icon={faBars}/></div>
     {#if open}
         <div class="links" in:fly={{x: 100,}} out:fly={{x: 100}}>
-            <div class="close" on:click={toggleMenu}><img src={close} alt="close"></div>
+            <div class="close" on:click={toggleMenu}><Fa icon={faXmark}/></div>
             <Link class='link' to='play' on:click={() => closeMenu()}>Play</Link>
             <Link class='link' to='explore' on:click={() => closeMenu()}>Explore</Link>
             {#if $loggedIn === false}
@@ -52,6 +52,7 @@
                 <Link class='link' to='create' on:click={() => closeMenu()}>Create</Link>
                 <Link class='link' to='account' on:click={() => closeMenu()}>Account</Link>
             {/if}
+            <Link class='link' to='settings' on:click={() => closeMenu()}>Settings</Link>
         </div>
     {/if}
 </nav>
@@ -64,19 +65,20 @@
         align-items: center;
         padding: 1rem;
         height: 3vh;
-        border-bottom: 2px solid #ccc;
+        background-color: var(--theme-color);
+        border-bottom: 2px solid var(--theme-color-2);
     }
 
     nav :global(.mainLink) {
         font-size: 1.5rem;
         font-weight: bold;
         text-decoration: none;
-        color: black;
+        color: var(--theme-color-2);
         font-family: monospace;
     }
     
     nav :global(.mainLink:hover){
-        color: #0070f3;
+        color: var(--theme-color-alt);
     }
 
     nav div{
@@ -88,8 +90,8 @@
     }
 
     nav div :global(.link) {
-        color: #0070f3;
-        border: #0070f3 solid 1px;
+        color: var(--theme-color-alt);
+        border: var(--theme-color-alt) solid 1px;
         border-radius: 5px;
         text-decoration: none;
         font-family: monospace;
@@ -100,16 +102,18 @@
     }
 
     nav div :global(.link:hover) {
-        background-color: #0070f3;
-        color: white;
+        background-color: var(--theme-color-alt);
+        color: var(--theme-color);
     }
 
     .open{
         display: none;
+        color: var(--theme-color-2);
     }
 
     .close{
         display: none;
+        color: var(--theme-color-2);
     }
 
     @media (max-width: 768px) {
@@ -117,6 +121,11 @@
             display: block;
             cursor: pointer;
             width: 30px;
+            font-size: 2rem;
+        }
+
+        .open:hover {
+            color: var(--theme-color-alt);
         }
 
         .close{
@@ -126,6 +135,11 @@
             top: 3%;
             left: 88%;
             width: 30px;
+            font-size: 3rem;
+        }
+
+        .close:hover {
+            color: var(--theme-color-alt);
         }
 
         .links{
@@ -137,7 +151,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background-color: white;
+            background-color: var(--theme-color);
             z-index: 10;
         }
 

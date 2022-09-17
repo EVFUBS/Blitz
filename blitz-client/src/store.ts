@@ -11,3 +11,8 @@ export const group = writable({
 export const csrf = writable(undefined);
 
 export const loggedIn = writable(false);
+
+export const theme = writable(false)
+export const themeColor = writable('#1B2430')
+export const themeColor2 = writable('white')
+export const themeColorAlt = writable('#ECDBBA')

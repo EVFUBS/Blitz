@@ -1,7 +1,9 @@
 <script lang="ts">
+    import autoAnimate from "@formkit/auto-animate";
     import { onMount } from "svelte";
     import { csrf } from "../../store";
-import Session from "./Session.svelte";
+    import Button from "../General/Button.svelte";
+    import Session from "./Session.svelte";
 
     interface groupProps {
         group_id: number | null;
@@ -86,18 +88,19 @@ import Session from "./Session.svelte";
                     <p>{qa.length} questions</p>
                     {#each qa as question}
                         <div class="question">
-                           <details>
+                           <details use:autoAnimate>
                                 <summary>{question.question_text}</summary>
-                                <ul class="answers">
+                                <ul class="answers" use:autoAnimate>
                                     {#each question.answers as answer}
                                         <li class="answer">{answer.answer_text}</li>
                                     {/each}
                                 </ul>
                            </details> 
                         </div>
-                        
                     {/each}
-                    <button on:click={() => session = qa}>Play</button>
+                    <div class="button">
+                        <Button on:click={() => session = qa}>Play</Button>
+                    </div>
                 </div>
             </div>
         {/await}
@@ -112,6 +115,7 @@ import Session from "./Session.svelte";
         align-items: center;
         justify-content: center;
         width: 100%;
+        color: var(--theme-color-2);
     }
     
     .group{
@@ -143,6 +147,10 @@ import Session from "./Session.svelte";
         justify-content: center;
         align-items: center;
         width: 50%;
+    }
+
+    button {
+        width: 80%;
     }
 
     @media (max-width: 768px) {
@@ -184,31 +192,4 @@ import Session from "./Session.svelte";
         border-bottom: 1px solid #aaa;
         margin-bottom: .5em;
     }
-
-    button{
-        color: #0070f3;
-        border: #0070f3 solid 2px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-family: monospace;
-        font-size: 0.9rem;
-        font-weight: bold;
-        padding: 0.5rem;
-        transition: 0.2s;
-        background-color: white;
-        width: 90%;
-    }
-
-    @media (max-width: 768px) {
-        button{
-            width: 100%;
-        }
-    }
-
-    button:hover{
-        background-color: #0070f3;
-        color: white;
-    }
-
-
 </style>
